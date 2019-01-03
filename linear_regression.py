@@ -1,3 +1,6 @@
+# Implement Simple Linear Regression with 
+# Gradient Descent Approach
+#========================================
 import random
 import numpy as np
 import sklearn
@@ -57,15 +60,14 @@ def gradient_descent(X, y, alpha=0.0001, ep=0.0001, max_iter=100000):
 # Parameter:
 #   X,y: input data
 #   theta: slope(theta[1]) and y-intercept(theta[0])
-def plot_regression_line(X, y, theta=None, title='My Plot', xlabel='X', ylabel='Y'):
+def plot_regression_line(X, y, theta, title='My Plot', xlabel='X', ylabel='Y'):
     # plotting the actual points as scatter plot
     plt.scatter(X, y, color='b', marker='o', s=20)
-    
-    if(theta != None):
-        # predicted response vector
-        y_pred = theta[0] + theta[1] * X
-        # plotting the regression line
-        plt.plot(X, y_pred, color = "k")
+
+    # predicted response vector
+    y_pred = theta[0] + theta[1] * X
+    # plotting the regression line
+    plt.plot(X, y_pred, color = "k")
         
     plt.xlabel(xlabel)
     plt.ylabel(ylabel)
@@ -77,7 +79,7 @@ def main():
     X, y = make_regression(n_samples=100, n_features=1, n_informative=1, random_state=0, noise=35)
     print("X.shape = {}  \ny.shape = {}".format(X.shape, y.shape))
     
-    alpha = 0.005
+    alpha = 0.003
     ep = 0.001
 
     theta = gradient_descent(X, y, alpha, ep)
