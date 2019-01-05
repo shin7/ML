@@ -36,6 +36,16 @@ def fit(x, y, theta):
     minimizer = opt.fmin_tnc(func=cost_function, x0=theta, fprime=gradient, args=(x, y.flatten()))
     return minimizer[0]
 
+def predict(x, parameters):
+    theta = parameters[:, np.newaxis]
+    return hypothesis(theta,x)
+
+def accuracy(x, actual_classes, parameters, probab_threshold=0.5):
+    predicted_classes = (predict(x, parameters) >= probab_threshold).astype(int)
+    predicted_classes = predicted_classes.flatten()
+    accuracy = np.mean(predicted_classes == actual_classes)
+    return accuracy * 100
+
 def main():
     # load data from file
     data = load_data('data/marks.txt', None)
@@ -66,12 +76,17 @@ def main():
     print(parameters)
 
     ###TEST
-    test_X = np.array([1, 100, 60])
-    predict = hypothesis(parameters, test_X)
-    print(predict)
+    test_X = np.array([1, 70, 60])
+    pred = predict(test_X, parameters)
+    if pred >= 0.5:
+        print('Admitted; predict value = {}'.format(pred))
+    else:
+        print('Not Admitted; predict value = {}'.format(pred))
     ####END TEST
 
-    x_values = [np.min(X[:, 1] - 5), np.max(X[:, 2] + 5)]
+    print('Accuracy = {}'.format(accuracy(X, y.flatten(), parameters)))
+
+    x_values = [np.min(X[:, 1]), np.max(X[:, 2])]
     y_values = - (parameters[0] + np.dot(parameters[1], x_values)) / parameters[2]
     
     plt.plot(x_values, y_values, label='Decision Boundary')
