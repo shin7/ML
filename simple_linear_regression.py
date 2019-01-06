@@ -43,6 +43,35 @@ def plot_regression_line(X, y, beta=None, title='My Plot', xlabel='X', ylabel='Y
     plt.legend()
     plt.show()
 
+def predict(x, beta):
+    y_pred = beta[0] + beta[1] * x
+    print("Predicted value = {}".format(y_pred))
+    return y_pred
+
+# Root Mean Squared Error
+def rmse(x,y,beta):
+    m, rmse = x.shape[0], 0
+    for i in range(m):
+        y_pred = beta[0] + beta[1] * x[i]
+        rmse += (y[i] - y_pred) ** 2
+    rmse = np.sqrt(rmse/m)
+    print('RMSE = {}'.format(rmse))
+    return rmse
+
+# Coefficient of Determination(R^2 Score)
+def r2_score(x,y,beta):
+    m = x.shape[0]
+    mean_y = np.mean(y)
+    ss_t = 0 #ss_t is the total sum of squares
+    ss_r = 0 #ss_r is the total sum of squares of residuals
+    for i in range(m):
+        y_pred = beta[0] + beta[1] * x[i]
+        ss_t += (y[i] - mean_y) ** 2
+        ss_r += (y[i] - y_pred) ** 2
+    r2 = 1 - (ss_r / ss_t)
+    print('R2_Score = {}'.format(r2))
+    return r2
+
 def main():
     # read data from csv file
     data = pd.read_csv('data/headbrain.csv')
@@ -54,6 +83,12 @@ def main():
     print(x.shape)
 
     beta = estimate_coefficients(x,y)
+    ###TEST
+    predict(3000, beta)
+    ###END TEST
+    # evaluate the model
+    rmse(x,y,beta)
+    r2_score(x,y,beta)
     plot_regression_line(x,y,beta,xlabel='Head Size in cm3', ylabel='Brain Weight in grams')
 
 if __name__ == "__main__":
