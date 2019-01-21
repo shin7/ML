@@ -321,11 +321,11 @@ def main():
     test_img = img_crop_square(test_img)
     test_img = imresize(test_img,(64,64))
     test_img = test_img.reshape(1,-1).T
-    print('============> TEST input new image: {}'.format(classes[int(predict(d['w'], d['b'], test_img))]))
+    test_label = classes[int(predict(d['w'], d['b'], test_img))]
+    print('============> TEST input new image: {}'.format(test_label))
+    plt.title('Prediction: {}'.format(test_label))
     plt.show()
-    ### END TEST
-
-    
+    ### END TEST    
 
 if __name__ == "__main__":
     main()
