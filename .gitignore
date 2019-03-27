@@ -1,4 +1,12 @@
+image-captioning/Flicker8k_Dataset/
+image-captioning/Flickr8k_text/
+image-captioning/features.pkl
+image-captioning/model-ep*
+image-captioning/descriptions.txt
+image-captioning/max_length.txt
+image-captioning/tokenizer.pkl
 .DS_Store
 .vscode
+.idea/
 data/img_align_celeba
 __pycache__
